@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Statement Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="static\style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="containerh">
+            <div class="logo">
+                <img src="static\logo.jpg" alt="Logo">
+            </div>
+            <h2><S>STELLER RETAIL CO</S></h2>
+        </div>
+    </header>
+    <div class="main-content">
+        <div class="chat-container">
+            <div class="initial-info" id="initial-info">
+                <img src="static\steller.jpg" alt="Info Image" width="90%" height="80%">
+                <p style="font-family: cursive;">Welcome to Stellar Retail Co.! I'm here to assist you with everything you need—whether it's finding products, tracking an order, or answering any questions. How can I help make your shopping experience easier today?</p>
+            </div>
+            <div class="chat-history" id="chatHistory">
+            </div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+            <div class="loading-indicator" id="loadingIndicator">
+                <div class="dot-container">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="loading" class="hidden">
+        <p>Loading...</p>
+        <div class="spinner"></div>
+    </div>
+    <script>
+        function uploadFile() {
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+            if (!file) return; 
+            document.getElementById('loading').classList.remove('hidden');
+
+            var formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').classList.add('hidden');
+
+                if (data.status) {
+                    alert(data.status);
+                    var fileLink = document.getElementById('fileLink');
+                    fileLink.href = '/uploads/' + data.filename;
+                    fileLink.innerText = 'View Uploaded File';
+                    fileLink.style.display = 'block';
+                } else {
+                    alert('File upload failed.');
+                }
+            })
+            .catch(error => {
+                document.getElementById('loading').classList.add('hidden');
+                console.error('Error:', error);
+            });
+        }
+        document.getElementById('fileInput').addEventListener('change', uploadFile);
+
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput').value;
+            if (!userInput) return;
+
+            displayMessage(userInput, 'user');
+            document.getElementById('userInput').value = '';
+            hideInitialInfo();
+            showLoadingIndicator(); 
+
+            try {
+                const response = await fetch('/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: userInput })
+                });
+
+                if (!response.ok) {
+                    const error = await response.text();
+                    console.error('Server error:', error);
+                    displayMessage('Error: ' + (error || 'Unknown error'), 'bot');
+                    hideLoadingIndicator();
+                    return;
+                }
+
+                const data = await response.text();
+                displayMessage(data, 'bot');
+            } catch (error) {
+                console.error('Fetch error:', error);
+                displayMessage('Error: ' + error.message, 'bot');
+            } finally {
+                hideLoadingIndicator(); 
+            }
+        }
+
+        function showLoadingIndicator() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            loadingIndicator.style.display = 'block';
+        }
+
+        function hideLoadingIndicator() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            loadingIndicator.style.display = 'none';
+        }
+
+        function sendPredefinedMessage(message) {
+            document.getElementById('userInput').value = message;
+            hideInitialInfo();
+            sendMessage();
+        }
+
+        function hideInitialInfo() {
+            const initialInfo = document.getElementById('initial-info');
+            if (initialInfo) {
+                initialInfo.style.display = 'none';
+            }
+        }
+
+        function displayMessage(message, sender) {
+            let cleanMessage = message.replace(/^\{.*"answer":"(.*)"\}$/, '$1');
+            
+            const chatHistory = document.getElementById('chatHistory');
+            const messageElement = document.createElement('div');
+            messageElement.className = `chat-message ${sender}`;
+            
+            const iconElement = document.createElement('i');
+            iconElement.className = `icon ${sender === 'user' ? 'fas fa-user' : 'fas fa-robot'}`;
+            
+            const messageContent = document.createElement('div');
+            messageContent.innerHTML = formatAnswer(cleanMessage);
+
+            messageContent.insertBefore(iconElement, messageContent.firstChild);
+
+            messageElement.appendChild(messageContent);
+            
+            chatHistory.appendChild(messageElement);
+        }
+
+        function formatAnswer(answer) {
+            let formattedAnswer = answer.replace(/\n/g, '<br>');
+            formattedAnswer = formattedAnswer.replace(/•/g, '&bull;');
+            formattedAnswer = formattedAnswer.replace(/--/g, '<hr>');  
+            formattedAnswer = formattedAnswer.replace(/^##\s*(.*)$/gm, '<h2>$1</h2>');  
+            formattedAnswer = formattedAnswer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');  
+            formattedAnswer = formattedAnswer.replace(/"(.*?)"/g, '&quot;$1&quots;');  
+
+            return formattedAnswer;
+        }
+
+        document.getElementById('userInput').addEventListener('keypress', function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

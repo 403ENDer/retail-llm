@@ -1,0 +1,316 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito', cursive;
+    position: relative;
+    line-height: 1.8;
+    background: linear-gradient(145deg, #f0f0f0, #ffffff);
+    box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.1), 
+                inset -5px -5px 15px rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+
+header {
+    background-color: #F1E5AC;
+    background: linear-gradient(135deg, #f1d0ac, #da6290);
+    padding: 20px 0;
+    font-family: 'Nunito', cursive;;
+    text-align: center;
+    color: #333;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4A4A4A;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.containerh {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.logo img {
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1), 0px 8px 16px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid #E57F84;
+}
+
+.logo img:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2), 0px 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.home-section {
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    scroll-behavior: smooth;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.content {
+    text-align: center;
+}
+
+.content h1 {
+    margin: 0;
+    font-size: 3em;
+}
+
+.content p {
+    font-size: 1.2em;
+}
+
+
+h4 {
+    font-family: cursive;
+    border-bottom: 2px solid black;
+    text-transform: uppercase;
+    font-size: 0.5cm;
+    color: #4A25AA;
+}
+
+
+.chat-container {
+    max-width: 1200px; 
+    width: 90%;
+    margin: 0 auto; 
+    display: flex;
+    flex-direction: column;
+    height: 80vh; 
+    position: relative;
+    color: #49442c;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    padding: 30px; 
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1), 0px 12px 24px rgba(0, 0, 0, 0.05);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.3s ease;
+}
+
+.chat-container:hover {
+    transform: rotateY(5deg) rotateX(2deg);
+    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.2), 0px 16px 32px rgba(0, 0, 0, 0.1);
+}
+
+
+.chat-history {
+    flex-grow: 1;
+    overflow-y: scroll;
+    padding: 10px;
+    scrollbar-width: none;
+}
+
+.chat-input {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+}
+
+.chat-input input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 10px 10px 40px; 
+    color: #292820;
+    border: 2px solid #7d7340;
+    border-radius: 50px;
+    background: linear-gradient(145deg, #dcd5b3, #e8e0c2); /* Subtle gradient for depth */
+    outline: none;
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.1), inset -3px -3px 8px rgba(255, 255, 255, 0.6), 4px 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.chat-input input[type="text"]:focus {
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.1), inset -3px -3px 8px rgba(255, 255, 255, 0.6), 6px 6px 14px rgba(0, 0, 0, 0.2);
+    border: 2px solid #a89050; /* Darker border for focus state */
+    background: linear-gradient(145deg, #e8e0c2, #f3ebd4); /* Slightly brighter on focus */
+}
+
+
+
+.chat-input input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 10px 10px 40px; /* Adjusted padding to make space for the icon */
+    color: #292820;
+    border: 2px solid #7d7340;
+    border-radius: 50px;
+    background-color: #dcd5b3;
+    outline: none;
+}
+
+.chat-input button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px 20px;
+    border: none;
+    background: linear-gradient(90deg, rgb(240, 252, 164) 0%, rgb(166, 175, 106) 100%);
+    border-radius: 50px;
+    cursor: pointer;
+    color: rgb(53, 52, 80);
+    font-size: 16px;
+}
+
+
+.chat-message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.chat-message.user {
+    justify-content: flex-end;
+}
+
+.chat-message.bot {
+    justify-content: flex-start;
+}
+
+.chat-message .icon {
+    margin-right: 10px;
+    font-size: 1.5em;
+}
+
+.chat-message.user .icon {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+.initial-info {
+    text-align: center;
+    font-family: cursive;
+    padding: 70px;
+    font-size: 1.2em;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 80%;
+    height: 70%;
+    margin: auto;
+}
+
+
+
+.chat-input .upload-icon input[type="file"] {
+display: none;
+}
+
+.hidden {
+display: none;
+}
+
+#loading {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.5);
+color: white;
+text-align: center;
+padding-top: 20%;
+}
+
+.spinner {
+border: 8px solid #f3f3f3;
+border-radius: 50%;
+border-top: 8px solid #3498db;
+width: 50px;
+height: 50px;
+animation: spin 1s linear infinite;
+margin: 20px auto;
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+.loading-indicator {
+display: none;
+text-align: center;
+margin-top: 20px;
+}
+
+.dot-container {
+display: inline-block;
+}
+
+.dot {
+display: inline-block;
+width: 10px;
+height: 10px;
+margin: 0 5px;
+background-color: #333;
+border-radius: 50%;
+animation: dot-blink 1.4s infinite both;
+}
+
+.dot:nth-child(1) {
+animation-delay: -0.32s;
+}
+
+.dot:nth-child(2) {
+animation-delay: -0.16s;
+}
+
+@keyframes dot-blink {
+0%, 80%, 100% {
+opacity: 0;
+}
+40% {
+opacity: 1;
+}
+}
